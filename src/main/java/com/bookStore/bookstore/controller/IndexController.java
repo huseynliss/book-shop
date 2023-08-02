@@ -1,21 +1,28 @@
 package com.bookStore.bookstore.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/indexPage")
 public class IndexController {
 
 
-
-
     @GetMapping
-    public String showIndexPage(Model model){
+    public String showIndexPage(){
 
 
         return "index";
-    }}
+    }
+
+//    @GetMapping
+//    @ResponseBody
+//    public String sayHello() {
+//        return "Merhaba, Dünya!";
+//    }
+
+
+    }

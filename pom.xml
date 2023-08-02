@@ -8,6 +8,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
+		<!-- Update the Spring Boot version to the latest stable version -->
 		<version>2.7.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -19,8 +20,9 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
+		<!-- Update the Java version to the latest supported version -->
 		<java.version>17</java.version>
-		<liquibase.version>4.0.0</liquibase.version>
+
 	</properties>
 
 	<dependencies>
@@ -54,8 +56,26 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.8.0</version>
+			<!-- Update to the latest Liquibase version -->
+			<version>4.5.0</version>
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring5</artifactId>
+			<version>3.0.11.RELEASE</version>
+		</dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
 
 	</dependencies>
 
