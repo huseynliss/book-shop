@@ -1,0 +1,277 @@
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .message-overlay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .message-box {
+            background-color: green;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container label {
+            margin-right: 10px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 300px;
+            transition: border-color 0.2s;
+        }
+
+        .search-container input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div th:if="${showSuccessMessage}" class="message-overlay">
+    <div class="message-box">
+        <p>The book has been successfully updated.</p>
+    </div>
+</div>
+
+<div th:if="${showSuccessMessageAddProduct}" class="message-overlay">
+    <div class="message-box">
+        <p>The book has been successfully saved.</p>
+    </div>
+</div>
+
+
+
+
+
+
+<div style="display: flex; justify-content: flex-end; padding: 20px;">
+    <a href="/admin/addProduct" style="text-decoration: none;">
+        <button style="background-color: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+            Add Product
+        </button>
+    </a>
+</div>
+
+<div class="search-container">
+    <label for="searchInput">Search by Title:</label>
+    <input type="text" id="searchInput" onkeyup="filterBooks()" placeholder="Enter book title...">
+</div>
+
+
+
+<h2>Active books</h2>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Publisher</th>
+        <th>Genres</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Language</th>
+        <th>Cover Image</th>
+        <th>Rating</th>
+        <th>Number of Pages</th>
+        <th>Publication Format</th>
+        <th>Discount Percent</th>
+        <th>Publication Date</th>
+        <th>Edit</th>
+        <th>Change Activity Status</th>
+        <th>Activity Status</th>
+    </tr>
+    <tr th:each="activeBook : ${activeBooks}">
+        <td th:text="${activeBook.title}"></td>
+        <td th:text="${activeBook.authorDTO.name}"></td>
+        <td th:text="${activeBook.isbn}"></td>
+        <td th:text="${activeBook.publisherDTO.getName()}"></td>
+        <td>
+            <div th:each="genre, iterStat : ${activeBook.genreDTOS}">
+                <span th:text="${genre.name}"></span>
+                <span th:if="${!iterStat.last}">,</span>
+                <span th:if="${iterStat.last}"> </span>
+            </div>
+        </td>
+        <td th:text="${activeBook.description}"></td>
+        <td th:text="${activeBook.price}"></td>
+        <td th:text="${activeBook.quantity}"></td>
+        <td th:text="${activeBook.languageDTO.getName()}"></td>
+        <td th:text="${activeBook.coverImage}"></td>
+        <td th:text="${activeBook.rating}"></td>
+        <td th:text="${activeBook.numberOfPages}"></td>
+        <td th:text="${activeBook.publicationFormat}"></td>
+        <td th:text="${activeBook.discountPercent}"></td>
+        <td th:text="${activeBook.publicationDate}"></td>
+        <td><a th:href="@{/admin/edit/{id}(id=${activeBook.id})}">
+            <button>Edit</button>
+        </a></td>
+        <td>
+            <form th:if="${activeBook.active}" th:action="@{/admin/deactivate/{id}(id=${activeBook.id})}" method="post">
+                <button type="submit">Deactivate</button>
+            </form>
+            <form th:unless="${activeBook.active}" th:action="@{/admin/activate/{id}(id=${activeBook.id})}"
+                  method="post">
+                <button type="submit">Activate</button>
+            </form>
+        </td>
+        <td>
+            <span th:if="${activeBook.active}">Active</span>
+            <span th:unless="${activeBook.active}">Not active</span>
+        </td>
+
+    </tr>
+</table>
+<h2>Inactive books</h2>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Publisher</th>
+        <th>Genres</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Language</th>
+        <th>Cover Image</th>
+        <th>Rating</th>
+        <th>Number of Pages</th>
+        <th>Publication Format</th>
+        <th>Discount Percent</th>
+        <th>Publication Date</th>
+        <th>Edit</th>
+        <th>Change Activity Status</th>
+        <th>Activity Status</th>
+
+    </tr>
+    <tr th:each="inactiveBook : ${inactiveBooks}">
+        <td th:text="${inactiveBook.title}"></td>
+        <td th:text="${inactiveBook.authorDTO.name}"></td>
+        <td th:text="${inactiveBook.isbn}"></td>
+        <td th:text="${inactiveBook.publisherDTO.getName()}"></td>
+        <td>
+            <div th:each="genre, iterStat : ${inactiveBook.genreDTOS}">
+                <span th:text="${genre.name}"></span>
+                <span th:if="${!iterStat.last}">,</span>
+                <span th:if="${iterStat.last}"> </span>
+            </div>
+        </td>
+        <td th:text="${inactiveBook.description}"></td>
+        <td th:text="${inactiveBook.price}"></td>
+        <td th:text="${inactiveBook.quantity}"></td>
+        <td th:text="${inactiveBook.languageDTO.getName()}"></td>
+        <td th:text="${inactiveBook.coverImage}"></td>
+        <td th:text="${inactiveBook.rating}"></td>
+        <td th:text="${inactiveBook.numberOfPages}"></td>
+        <td th:text="${inactiveBook.publicationFormat}"></td>
+        <td th:text="${inactiveBook.discountPercent}"></td>
+        <td th:text="${inactiveBook.publicationDate}"></td>
+        <td><a th:href="@{/admin/edit/{id}(id=${inactiveBook.id})}">
+            <button>Edit</button>
+        </a></td>
+        <td>
+            <form th:if="${inactiveBook.active}" th:action="@{/admin/deactivate/{id}(id=${inactiveBook.id})}"
+                  method="post">
+                <button type="submit">Deactivate</button>
+            </form>
+            <form th:unless="${inactiveBook.active}" th:action="@{/admin/activate/{id}(id=${inactiveBook.id})}"
+                  method="post">
+                <button type="submit">Activate</button>
+            </form>
+        </td>
+        <td>
+            <span th:if="${inactiveBook.active}">Active</span>
+            <span th:unless="${inactiveBook.active}">Not active</span>
+        </td>
+    </tr>
+</table>
+<script>
+    // script.js
+    document.addEventListener("DOMContentLoaded", function () {
+        var messageOverlay = document.querySelector(".message-overlay");
+
+        if (messageOverlay) {
+            setTimeout(function () {
+                messageOverlay.style.display = "none";
+            }, 1200); // 5 saniye
+        }
+    });
+
+
+
+
+
+    function filterBooks() {
+        var input, filter, tables, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        tables = document.querySelectorAll("table");
+
+        for (j = 0; j < tables.length; j++) {
+            tr = tables[j].getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
+                td = tr[i].getElementsByTagName("td")[0]; // Assuming title is the first column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
+

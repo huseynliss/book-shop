@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Table(name = "publisher")
 @Data
@@ -18,13 +21,18 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "logo")
     private String logo;
 
     @OneToMany(mappedBy = "publisher")
-    private List<Book> books;
+    private Set<Book> books;
 
-    // Constructors, getters, and setters
+    // getters and setters
 
 }

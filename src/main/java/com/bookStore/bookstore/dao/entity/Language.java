@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Table(name = "language")
 @Data
@@ -14,14 +17,18 @@ import java.util.List;
 @NoArgsConstructor
 public class Language {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
-    private String code;
 
     @OneToMany(mappedBy = "language")
-    private List<Book> books;}
+    private Set<Book> books;
 
-// Constructors, getters, and setters
+    // getters and setters
+
+}
+

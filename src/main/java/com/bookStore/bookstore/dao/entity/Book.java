@@ -1,8 +1,17 @@
 package com.bookStore.bookstore.dao.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.*;
+
+import javax.persistence.*;
+import java.util.Date;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,68 +22,68 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @Column(nullable = false)
+    @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 
-    @ManyToMany
-    @JoinTable(name = "book_genre",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<Genre> genres;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<Genre> genres = new ArrayList<>();
 
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private double price;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
-    @Column(nullable = false)
-    private int quantity;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "language_id", nullable = false)
     private Language language;
 
+    @Column(name = "cover_image", nullable = false)
     private String coverImage;
 
-    @Column(nullable = false)
-    private double rating;
 
-    @Column(nullable = false)
-    private int numberOfPages;
+    @Column(name = "rating", nullable = false)
+    private Double rating;
 
-    @Column(nullable = false)
+    @Column(name = "number_of_pages", nullable = false)
+    private Integer numberOfPages;
+
+    @Column(name = "publication_format", nullable = false)
     private String publicationFormat;
 
-    @Column(nullable = false)
-    private double discountPercent;
+    @Column(name = "discount_percent", nullable = false)
+    private Double discountPercent;
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date publicationDate;
+    @Column(name = "publication_date", nullable = false)
+    private LocalDate  publicationDate;
 
-    // Constructors, getters, and setters
-
-    // Other constructors
-
-    // Getters and setters for all fields
-
-    // Additional methods as needed
 }
+
+
+
+
+

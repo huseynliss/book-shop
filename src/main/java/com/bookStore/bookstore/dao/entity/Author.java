@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Table(name = "author")
 @Data
@@ -18,13 +21,18 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "bio")
     private String bio;
+
+    @Column(name = "photo")
     private String photo;
 
     @OneToMany(mappedBy = "author")
-    private List<Book> books;
+    private Set<Book> books;
 
-    // Constructors, getters, and setters
+    // getters and setters
 
 }

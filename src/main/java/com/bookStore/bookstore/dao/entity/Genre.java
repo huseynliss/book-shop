@@ -1,8 +1,14 @@
 package com.bookStore.bookstore.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,17 +18,31 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "genres")
-    private Set<Book> books;
+    @ManyToMany
+    @JoinTable(name = "book_genre",
+            joinColumns = @JoinColumn(name = "genre_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    @JsonIgnore
+    private List<Book> books = new ArrayList<>();
 
-    // Constructors, getters, and setters
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    // getters and setters
 
 }
+
+
