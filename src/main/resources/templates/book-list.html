@@ -50,22 +50,44 @@
         .clear {
             clear: both;
         }
-
         .items {
             display: flex;
             flex-wrap: wrap;
             margin: 20px 0;
+            justify-content: flex-start; /* Kitapları başlangıç noktasından itibaren sağa doğru yerleştir */
         }
 
         .item {
             background-color: #fff;
-            box-sizing: border-box; /* Kenarlık ve dolgu dahil kutu modelini ayarlar */
-            margin: 0 10px 20px 0; /* Ürünler arası boşluk ve satır sonu boşluğu */
-            width: calc(25% - 10px); /* %25 genişlik, 10px boşluk çıkar */
+            box-sizing: border-box;
+            margin: 0 0 20px 0;
+            width: calc(25% - 20px); /* %25 genişlik, 20px boşluk çıkar */
             padding: 10px;
-            height: 420px; /* Yükseklik ayarı */
-            text-align: center; /* İçerik merkezlemesi */
+            text-align: center;
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .item {
+                width: calc(33.33% - 20px); /* %33.33 genişlik, 20px boşluk çıkar */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .item {
+                width: calc(50% - 20px); /* %50 genişlik, 20px boşluk çıkar */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item {
+                width: 100%; /* %100 genişlik */
+            }
+        }
+
+
+
+
 
         .item img {
             max-width: 100%;
@@ -148,7 +170,8 @@
 
         <form action="" class="search-form">
             <input id="search-box" type="search" placeholder="search here...">
-            <label for="" class="fas fa-search"></label>
+            <label for="" class="fas fa-search" id="search-button"></label>
+
         </form>
 
         <div class="icons">
@@ -211,7 +234,7 @@
     <div class="items">
         <div th:each="book : ${AllActiveBooks}" class="item">
             <img th:src="${book.getCoverImage()}" alt="">
-            <h2 th:text="${book.title}"></h2>
+            <h2 id="book-title" th:text="${book.title}"></h2>
             <p class="price" th:text="'Price : ' + ${book.price}"></p>
             <p class="author" th:text="'Author : ' + ${book.authorDTO.name}"></p>
             <p class="rating">
@@ -237,6 +260,11 @@
 
 
         </div>
+    </div>
+
+
+    <div class="no-results" style="display: none;">
+        <p style="font-size: 18px; text-align: center;">No books found.</p>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -275,6 +303,40 @@
         // Remove the "active" class from the login form
         loginForm.classList.remove('active');
     }
+
+
+        /*---- search book -------*/
+
+        document.querySelector('#search-button').addEventListener('click', function() {
+            var keyword = document.querySelector('#search-box').value;
+            searchBooks(keyword);
+        });
+
+        function searchBooks(keyword) {
+            var items = document.querySelectorAll('.item');
+            var noResults = document.querySelector('.no-results');
+
+            keyword = keyword.toLowerCase();
+            var foundBooks = false;
+
+            items.forEach(function(item) {
+                var title = item.querySelector('#book-title').textContent.toLowerCase();
+
+                if (title.includes(keyword)) {
+                    item.style.display = 'block';
+                    foundBooks = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (!foundBooks) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+
 
 
 </script>
