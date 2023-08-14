@@ -34,6 +34,14 @@ public class IndexController {
         return "book-list";
     }
 
+    @GetMapping("/header")
+    public String header(Model model){
+
+
+
+        return "header";
+    }
+
 //    @GetMapping
 //    @ResponseBody
 //    public String sayHello() {

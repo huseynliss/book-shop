@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html >
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Responsive Product Design</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+    <!-------- font awesome cdn link --------->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!------- swipper cdn link ------------>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <style>
         * {
             margin: 0;
@@ -75,8 +87,13 @@
         }
 
         p.author {
-            font-size: 18px; /* Yazar font büyüklüğü */
+            font-size: 15px;
+            margin-top: 3px;
+            white-space: nowrap; /* Yazar adının kesilmemesini sağlar */
+            overflow: hidden; /* Fazla metni gizler */
+            text-overflow: ellipsis; /* Gizlenen metni üç nokta (...) ile gösterir */
         }
+
 
         p.rating {
             display: inline-block;
@@ -120,10 +137,72 @@
         }
 
 
-
     </style>
 </head>
 <body>
+
+<!--------- header section start ------------>
+<header class="header" >
+    <div class="header_one">
+        <a href="" class="logo"><i class="fas fa-book"> Bookly</i></a>
+
+        <form action="" class="search-form">
+            <input id="search-box" type="search" placeholder="search here...">
+            <label for="" class="fas fa-search"></label>
+        </form>
+
+        <div class="icons">
+            <div id="search-btn" class="fas fa-search"></div>
+            <a href="" class="fas fa-heart"></a>
+            <a href="" class="fas fa-shopping-cart"></a>
+            <div id="login-btn" class="fas fa-user"></div>
+        </div>
+    </div>
+
+    <!----- navigation bar -------->
+    <div class="header_two">
+        <div class="navbar">
+            <a href="#home">Home</a>
+            <a href="#featured">Featured</a>
+            <a href="#arrivals">Arrivals</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#blogs">Blogs</a>
+        </div>
+    </div>
+
+</header>
+
+<!-------- bottom navbar start ----------->
+<div class="bottom-navbar">
+    <a href="#home" class="fas fa-home"></a>
+    <a href="#featured" class="fas fa-list"></a>
+    <a href="#arrivals" class="fas fa-tags"></a>
+    <a href="#blogs" class="fas fa-app-store"></a>
+</div>
+
+<!-------- login form start ----------->
+<div class="login-form-container">
+    <div id="close-login-btn" class="fas fa-times"></div>
+
+    <form action="">
+        <h3>sign in</h3>
+        <span>email</span>
+        <input type="email" class="box" placeholder="enter your email">
+        <span>password</span>
+        <input type="password" class="box" placeholder="enter your password">
+
+        <div class="check-box">
+            <input type="checkbox" id="remember-me">
+            <label for="remember-me">remember me</label>
+        </div>
+
+        <input type="submit" value="sign in" class="btn">
+        <p>forgot password? <a href="">click here</a></p>
+        <p>dont't have an account ? <a href="">create one</a></p>
+        <p></p>
+    </form>
+</div>
+
 
 <div class="wrapper">
     <h1>Book Stock</h1>
@@ -160,7 +239,45 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<!--<script>-->
+
+<!--    $(function(){-->
+<!--        try {-->
+<!--            $("#header").load("header.html");-->
+<!--        } catch (error) {-->
+<!--            console.error("Error loading header:", error);-->
+<!--        }-->
+<!--    });-->
+
+
+
+<!--</script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+        /*------- search button ----------- */
+        document.querySelector('#search-btn').onclick = () => {
+        // Toggle the search form's "active" class
+        searchform.classList.toggle('active');
+    }
+
+        /*---- login form -------*/
+        var loginForm = document.querySelector('.login-form-container');
+        document.querySelector('#login-btn').onclick = () => {
+        // Toggle the login form's "active" class
+        loginForm.classList.toggle('active');
+    }
+
+        document.querySelector('#close-login-btn').onclick = () => {
+        // Remove the "active" class from the login form
+        loginForm.classList.remove('active');
+    }
+
+
+</script>
 </body>
 </html>
 
